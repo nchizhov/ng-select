@@ -15,6 +15,7 @@ export class SelectDropdownComponent
     @Input() filterEnabled: boolean;
     @Input() highlightColor: string;
     @Input() highlightTextColor: string;
+    @Input() hideSelected: boolean;
     @Input() left: number;
     @Input() multiple: boolean;
     @Input() notFoundMsg: string;
@@ -113,8 +114,7 @@ export class SelectDropdownComponent
                 style['color'] = this.highlightTextColor;
             }
             return style;
-        }
-        else {
+        } else {
             return {};
         }
     }
@@ -138,8 +138,7 @@ export class SelectDropdownComponent
 
             if (itemBottom > viewBottom) {
                 list.scrollTop = itemBottom - listHeight;
-            }
-            else if (itemTop < viewTop) {
+            } else if (itemTop < viewTop) {
                 list.scrollTop = itemTop;
             }
         }
@@ -152,8 +151,7 @@ export class SelectDropdownComponent
 
         if (atTop && e.deltaY < 0) {
             e.preventDefault();
-        }
-        else if (atBottom && e.deltaY > 0) {
+        } else if (atBottom && e.deltaY > 0) {
             e.preventDefault();
         }
     }

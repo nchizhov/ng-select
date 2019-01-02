@@ -33,6 +33,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     // Style settings.
     @Input() highlightColor: string;
     @Input() highlightTextColor: string;
+    @Input() hideSelected = false;
 
     // Text settings.
     @Input() notFoundMsg: string = 'No results found';
@@ -257,14 +258,10 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     }
 
     set value(v: string | string[]) {
-        if (typeof v === 'undefined' || v === null || v === '') {
+        if (typeof v === 'undefined' || v === null) {
             v = [];
-        }
-        else if (typeof v === 'string') {
+        } else if (typeof v === 'string' || !Array.isArray(v)) {
             v = [v];
-        }
-        else if (!Array.isArray(v)) {
-            throw new TypeError('Value must be a string or an array.');
         }
 
         this.optionList.value = v;
@@ -321,8 +318,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
 
             if (selection.length === 1) {
                 this.deselected.emit(selection[0].wrappedOption);
-            }
-            else {
+            } else {
                 this.deselected.emit(selection.map(option => option.wrappedOption));
             }
         }
@@ -431,30 +427,25 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
         if (this.isOpen) {
             if (key === this.KEYS.ESC || (key === this.KEYS.UP && event.altKey)) {
                 this.closeDropdown(true);
-            }
-            else if (key === this.KEYS.TAB) {
+            } else if (key === this.KEYS.TAB) {
                 this.closeDropdown(event.shiftKey);
                 this._blur();
-            }
-            else if (key === this.KEYS.ENTER) {
+            } else if (key === this.KEYS.ENTER) {
                 this.selectHighlightedOption();
-            }
-            else if (key === this.KEYS.UP) {
+            } else if (key === this.KEYS.UP) {
                 this.optionList.highlightPreviousOption();
                 this.dropdown.moveHighlightedIntoView();
                 if (!this.filterEnabled) {
                     event.preventDefault();
                 }
-            }
-            else if (key === this.KEYS.DOWN) {
+            } else if (key === this.KEYS.DOWN) {
                 this.optionList.highlightNextOption();
                 this.dropdown.moveHighlightedIntoView();
                 if (!this.filterEnabled) {
                     event.preventDefault();
                 }
             }
-        }
-        else {
+        } else {
             // DEPRICATED --> SPACE
             if (key === this.KEYS.ENTER || key === this.KEYS.SPACE ||
                     (key === this.KEYS.DOWN && event.altKey)) {
@@ -466,8 +457,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
                  * the dropdown to be closed again.
                  */
                 setTimeout(() => { this.openDropdown(); });
-            }
-            else if (key === this.KEYS.TAB) {
+            } else if (key === this.KEYS.TAB) {
                 this._blur();
             }
         }
@@ -535,11 +525,12 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
         }
     }
 
-    private updateFilterWidth() {
+    updateFilterWidth() {
         if (typeof this.filterInput !== 'undefined') {
             let value: string = this.filterInput.nativeElement.value;
             this.filterInputWidth = value.length === 0 ?
                 1 + this.placeholderView.length * 10 : 1 + value.length * 10;
+            return this.filterInputWidth;
         }
     }
 }

@@ -56,7 +56,7 @@
             autocomplete="off"
             tabindex="-1"
             [placeholder]="placeholderView"
-            [ngStyle]="{'width.px': filterInputWidth}"
+            [style.width]="updateFilterWidth()+'px'"
             (input)="onFilterInput($event.target.value)"
             (keydown)="onMultipleFilterKeydown($event)"
             (focus)="onMultipleFilterFocus()"/>
@@ -71,6 +71,7 @@
     [notFoundMsg]="notFoundMsg"
     [highlightColor]="highlightColor"
     [highlightTextColor]="highlightTextColor"
+    [hideSelected]="hideSelected"
     [filterEnabled]="filterEnabled"
     [placeholder]="filterPlaceholder"
     [isBelow]="isBelow"

@@ -113,8 +113,7 @@ export class OptionList {
         if (term.trim() === '') {
             this.resetFilter();
             anyShown = this.options.length > 0;
-        }
-        else {
+        } else {
             this.options.forEach((option) => {
                 let l: string = Diacritics.strip(option.label).toUpperCase();
                 let t: string = Diacritics.strip(term).toUpperCase();
