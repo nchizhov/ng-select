@@ -1,6 +1,6 @@
 {
   "name": "@inok/ng-select",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Select component for angular.",
   "repository": "git@github.com:nchizhov/ng-select.git",
   "keywords": [
