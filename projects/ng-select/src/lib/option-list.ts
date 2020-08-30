@@ -29,7 +29,7 @@ export class OptionList {
         }
 
         this._options = options.map((option) => {
-            let o: Option = new Option(option);
+            const o: Option = new Option(option);
             if (option.disabled) {
                 o.disabled = true;
             }
@@ -108,15 +108,15 @@ export class OptionList {
     }
 
     filter(term: string): boolean {
-        let anyShown: boolean = false;
+        let anyShown = false;
 
         if (term.trim() === '') {
             this.resetFilter();
             anyShown = this.options.length > 0;
         } else {
             this.options.forEach((option) => {
-                let l: string = Diacritics.strip(option.label).toUpperCase();
-                let t: string = Diacritics.strip(term).toUpperCase();
+                const l: string = Diacritics.strip(option.label).toUpperCase();
+                const t: string = Diacritics.strip(term).toUpperCase();
                 option.shown = l.indexOf(t) > -1;
 
                 if (option.shown) {
@@ -145,7 +145,7 @@ export class OptionList {
     }
 
     highlight() {
-        let option: Option = this.hasShownSelected() ?
+        const option: Option = this.hasShownSelected() ?
             this.getFirstShownSelected() : this.getFirstShown();
         this.highlightOption(option);
     }
@@ -160,8 +160,8 @@ export class OptionList {
     }
 
     highlightNextOption() {
-        let shownEnabledOptions = this.filteredEnabled;
-        let index = this.getHighlightedIndexFromList(shownEnabledOptions);
+        const shownEnabledOptions = this.filteredEnabled;
+        const index = this.getHighlightedIndexFromList(shownEnabledOptions);
 
         if (index > -1 && index < shownEnabledOptions.length - 1) {
             this.highlightOption(shownEnabledOptions[index + 1]);
@@ -169,8 +169,8 @@ export class OptionList {
     }
 
     highlightPreviousOption() {
-        let shownEnabledOptions = this.filteredEnabled;
-        let index = this.getHighlightedIndexFromList(shownEnabledOptions);
+        const shownEnabledOptions = this.filteredEnabled;
+        const index = this.getHighlightedIndexFromList(shownEnabledOptions);
 
         if (index > 0) {
             this.highlightOption(shownEnabledOptions[index - 1]);
@@ -206,7 +206,7 @@ export class OptionList {
     }
 
     private getFirstShown(): Option {
-        for (let option of this.options) {
+        for (const option of this.options) {
             if (option.shown) {
                 return option;
             }
@@ -215,7 +215,7 @@ export class OptionList {
     }
 
     private getFirstShownSelected(): Option {
-        for (let option of this.options) {
+        for (const option of this.options) {
             if (option.shown && option.selected) {
                 return option;
             }
@@ -230,8 +230,8 @@ export class OptionList {
             return false;
         }
 
-        let a: Array<string> = v0.slice().sort();
-        let b: Array<string> = v1.slice().sort();
+        const a: Array<string> = v0.slice().sort();
+        const b: Array<string> = v1.slice().sort();
 
         return a.every((v, i) => {
             return v === b[i];

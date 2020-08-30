@@ -1,5 +1,9 @@
-import {Component, HostListener, Input, OnChanges, OnInit, Output, EventEmitter, ExistingProvider, ViewChild, ViewEncapsulation, forwardRef, ElementRef, SimpleChange, SimpleChanges, ContentChild, TemplateRef} from '@angular/core';
+import {
+    Component, HostListener, Input, OnChanges, OnInit, Output, EventEmitter, ExistingProvider, ViewChild, ViewEncapsulation,
+    forwardRef, ElementRef, SimpleChanges, ContentChild, TemplateRef, AfterViewInit
+} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
+
 import {SelectDropdownComponent} from './select-dropdown.component';
 import {IOption} from './option.interface';
 import {Option} from './option';
@@ -19,16 +23,16 @@ export const SELECT_VALUE_ACCESSOR: ExistingProvider = {
     encapsulation: ViewEncapsulation.None
 })
 
-export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit {
+export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit, AfterViewInit {
 
     // Data input.
     @Input() options: Array<IOption> = [];
 
     // Functionality settings.
-    @Input() allowClear: boolean = false;
-    @Input() disabled: boolean = false;
-    @Input() multiple: boolean = false;
-    @Input() noFilter: number = 0;
+    @Input() allowClear = false;
+    @Input() disabled = false;
+    @Input() multiple = false;
+    @Input() noFilter = 0;
 
     // Style settings.
     @Input() highlightColor: string;
@@ -36,10 +40,10 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     @Input() hideSelected = false;
 
     // Text settings.
-    @Input() notFoundMsg: string = 'No results found';
-    @Input() placeholder: string = '';
-    @Input() filterPlaceholder: string = '';
-    @Input() label: string = '';
+    @Input() notFoundMsg = 'No results found';
+    @Input() placeholder = '';
+    @Input() filterPlaceholder = '';
+    @Input() label = '';
 
     // Output events.
     @Output() opened = new EventEmitter<null>();
@@ -50,6 +54,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     @Output() blur = new EventEmitter<null>();
     @Output() noOptionsFound = new EventEmitter<string>();
     @Output() filterInputChanged = new EventEmitter<string>();
+    @Output() clearSingleSelection = new EventEmitter<void>();
 
     @ViewChild('selection') selectionSpan: ElementRef;
     @ViewChild('dropdown') dropdown: SelectDropdownComponent;
@@ -61,19 +66,19 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     optionList: OptionList = new OptionList([]);
 
     // View state variables.
-    hasFocus: boolean = false;
-    isOpen: boolean = false;
-    isBelow: boolean = true;
+    hasFocus = false;
+    isOpen = false;
+    isBelow = true;
 
-    filterEnabled: boolean = true;
-    filterInputWidth: number = 1;
-    private isDisabled: boolean = false;
-    placeholderView: string = '';
+    filterEnabled = true;
+    filterInputWidth = 1;
+    private isDisabled = false;
+    placeholderView = '';
 
-    private clearClicked: boolean = false;
-    private selectContainerClicked: boolean = false;
-    private optionListClicked: boolean = false;
-    private optionClicked: boolean = false;
+    private clearClicked = false;
+    private selectContainerClicked = false;
+    private optionListClicked = false;
+    private optionClicked = false;
 
     // Width and position for the dropdown container.
     width: number;
@@ -179,6 +184,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
         this.clearClicked = true;
         this.clearSelection();
         this.closeDropdown(true);
+        this.clearSingleSelection.emit();
     }
 
     onDeselectOptionClick(option: Option) {
@@ -226,9 +232,9 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     /** Input change handling. **/
 
     private handleInputChanges(changes: SimpleChanges) {
-        let optionsChanged: boolean = changes.hasOwnProperty('options');
-        let noFilterChanged: boolean = changes.hasOwnProperty('noFilter');
-        let placeholderChanged: boolean = changes.hasOwnProperty('placeholder');
+        const optionsChanged: boolean = changes.hasOwnProperty('options');
+        const noFilterChanged: boolean = changes.hasOwnProperty('noFilter');
+        const placeholderChanged: boolean = changes.hasOwnProperty('placeholder');
 
         if (optionsChanged) {
             this.updateOptionList(changes.options.currentValue);
@@ -293,25 +299,26 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     }
 
     private deselectOption(option: Option) {
-        if (option.selected) {
-            this.optionList.deselect(option);
-            this.valueChanged();
-            this.deselected.emit(option.wrappedOption);
-
-            setTimeout(() => {
-                if (this.multiple) {
-                    this.updatePosition();
-                    this.optionList.highlight();
-                    if (this.isOpen) {
-                        this.dropdown.moveHighlightedIntoView();
-                    }
-                }
-            });
+        if (!option.selected) {
+            return;
         }
+        this.optionList.deselect(option);
+        this.valueChanged();
+        this.deselected.emit(option.wrappedOption);
+
+        setTimeout(() => {
+            if (this.multiple) {
+                this.updatePosition();
+                this.optionList.highlight();
+                if (this.isOpen) {
+                    this.dropdown.moveHighlightedIntoView();
+                }
+            }
+        });
     }
 
     private clearSelection() {
-        let selection: Array<Option> = this.optionList.selection;
+        const selection: Array<Option> = this.optionList.selection;
         if (selection.length > 0) {
             this.optionList.clearSelection();
             this.valueChanged();
@@ -329,7 +336,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     }
 
     private selectHighlightedOption() {
-        let option: Option = this.optionList.highlightedOption;
+        const option: Option = this.optionList.highlightedOption;
         if (option !== null) {
             this.selectOption(option);
             this.closeDropdown(true);
@@ -337,10 +344,10 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     }
 
     private deselectLast() {
-        let sel: Array<Option> = this.optionList.selection;
+        const sel: Array<Option> = this.optionList.selection;
 
         if (sel.length > 0) {
-            let option: Option = sel[sel.length - 1];
+            const option: Option = sel[sel.length - 1];
             this.deselectOption(option);
             this.setMultipleFilterInput(option.label + ' ');
         }
@@ -355,29 +362,31 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     }
 
     private openDropdown() {
-        if (!this.isOpen) {
-            this.isOpen = true;
-            this.updateWidth();
-            setTimeout(() => {
-                this.updatePosition();
-                if (this.multiple && this.filterEnabled) {
-                    this.filterInput.nativeElement.focus();
-                }
-                this.opened.emit(null);
-            });
+        if (this.isOpen) {
+            return;
         }
+        this.isOpen = true;
+        this.updateWidth();
+        setTimeout(() => {
+            this.updatePosition();
+            if (this.multiple && this.filterEnabled) {
+                this.filterInput.nativeElement.focus();
+            }
+            this.opened.emit(null);
+        });
     }
 
     private closeDropdown(focus: boolean) {
-        if (this.isOpen) {
-            this.clearFilterInput();
-            this.updateFilterWidth();
-            this.isOpen = false;
-            if (focus) {
-                this._focusSelectContainer();
-            }
-            this.closed.emit(null);
+        if (!this.isOpen) {
+            return;
         }
+        this.clearFilterInput();
+        this.updateFilterWidth();
+        this.isOpen = false;
+        if (focus) {
+            this._focusSelectContainer();
+        }
+        this.closed.emit(null);
     }
 
     /** Filter. **/
@@ -390,7 +399,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
             this.updateFilterWidth();
         }
         setTimeout(() => {
-            let hasShown: boolean = this.optionList.filter(term);
+            const hasShown: boolean = this.optionList.filter(term);
             if (!hasShown) {
                 this.noOptionsFound.emit(term);
             }
@@ -422,7 +431,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     };
 
     private handleSelectContainerKeydown(event: any) {
-        let key = event.which;
+        const key = event.which;
 
         if (this.isOpen) {
             if (key === this.KEYS.ESC || (key === this.KEYS.UP && event.altKey)) {
@@ -446,7 +455,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
                 }
             }
         } else {
-            // DEPRICATED --> SPACE
+            // DEPRECATED --> SPACE
             if (key === this.KEYS.ENTER || key === this.KEYS.SPACE ||
                     (key === this.KEYS.DOWN && event.altKey)) {
 
@@ -465,7 +474,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     }
 
     private handleMultipleFilterKeydown(event: any) {
-        let key = event.which;
+        const key = event.which;
 
         if (key === this.KEYS.BACKSPACE) {
             if (this.optionList.hasSelected && this.filterEnabled &&
@@ -476,7 +485,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     }
 
     private handleSingleFilterKeydown(event: any) {
-        let key = event.which;
+        const key = event.which;
 
         if (key === this.KEYS.ESC || key === this.KEYS.TAB
                 || key === this.KEYS.UP || key === this.KEYS.DOWN
@@ -488,18 +497,20 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     /** View. **/
 
     _blur() {
-        if (this.hasFocus) {
-            this.hasFocus = false;
-            this.onTouched();
-            this.blur.emit(null);
+        if (!this.hasFocus) {
+            return;
         }
+        this.hasFocus = false;
+        this.onTouched();
+        this.blur.emit(null);
     }
 
     _focus() {
-        if (!this.hasFocus) {
-            this.hasFocus = true;
-            this.focus.emit(null);
+        if (this.hasFocus) {
+            return;
         }
+        this.hasFocus = true;
+        this.focus.emit(null);
     }
 
     _focusSelectContainer() {
@@ -511,26 +522,31 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
     }
 
     private updatePosition() {
-        if (typeof this.dropdown !== 'undefined') {
-            const hostRect = this.hostElement.nativeElement.getBoundingClientRect();
-            const spanRect = this.selectionSpan.nativeElement.getBoundingClientRect();
-            const dropRect = this.dropdown.hostElement.nativeElement.firstElementChild.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            const top = spanRect.top - hostRect.top;
-            const bottom = hostRect.bottom + dropRect.height;
-
-            this.isBelow = bottom < windowHeight;
-            this.left = spanRect.left - hostRect.left;
-            this.top = this.isBelow ? top + spanRect.height : top - dropRect.height;
+        if (typeof this.dropdown === 'undefined') {
+            return;
         }
+        const hostRect = this.hostElement.nativeElement.getBoundingClientRect();
+        const spanRect = this.selectionSpan.nativeElement.getBoundingClientRect();
+        const dropRect = this.dropdown.hostElement.nativeElement.firstElementChild.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const top = spanRect.top - hostRect.top;
+        const bottom = hostRect.bottom + dropRect.height;
+
+        this.isBelow = bottom < windowHeight;
+        this.left = spanRect.left - hostRect.left;
+        this.top = this.isBelow ? top + spanRect.height : top - dropRect.height;
     }
 
     updateFilterWidth() {
-        if (typeof this.filterInput !== 'undefined') {
-            let value: string = this.filterInput.nativeElement.value;
-            this.filterInputWidth = value.length === 0 ?
-                1 + this.placeholderView.length * 10 : 1 + value.length * 10;
-            return this.filterInputWidth;
+        if (typeof this.filterInput === 'undefined') {
+            return;
         }
+        const value: string = this.filterInput.nativeElement.value;
+        this.filterInputWidth = value.length === 0 ?
+            1 + this.placeholderView.length * 10 : 1 + value.length * 10;
+    }
+
+    getFilterWidth(): string {
+        return this.filterInputWidth.toString(10);
     }
 }

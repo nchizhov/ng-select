@@ -56,7 +56,7 @@
             autocomplete="off"
             tabindex="-1"
             [placeholder]="placeholderView"
-            [style.width]="updateFilterWidth()+'px'"
+            [ngStyle]="{'width.px': getFilterWidth()}"
             (input)="onFilterInput($event.target.value)"
             (keydown)="onMultipleFilterKeydown($event)"
             (focus)="onMultipleFilterFocus()"/>

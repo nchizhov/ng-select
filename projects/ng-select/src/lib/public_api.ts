@@ -1,1 +1,1 @@
-export * from './ng-select.module'
+export * from './ng-select.module';

@@ -1,6 +1,6 @@
 {
   "name": "@inok/ng-select",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Select component for angular.",
   "repository": "git@github.com:nchizhov/ng-select.git",
   "keywords": [
@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/basvandenberg/ng-select/issues"
   },
-  "homepage": "https://basvandenberg.github.io/ng-select",
+  "homepage": "https://github.com/nchizhov/ng-select",
   "peerDependencies": {
     "@angular/core": ">=5.0.0 <8.0.0",
     "@angular/common": ">=5.0.0 <8.0.0"

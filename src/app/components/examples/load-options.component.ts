@@ -32,6 +32,10 @@ export class LoadOptions implements AfterViewInit, OnInit {
         if (this.dataSub !== null) { this.dataSub.unsubscribe(); }
     }
 
+    onClean() {
+        console.log('Cleaned');
+    }
+
     ngAfterViewInit() {
         hljs.initHighlighting();
         let nodes: NodeList = this.elementRef

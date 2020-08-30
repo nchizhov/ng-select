@@ -1,4 +1,6 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild,
+        TemplateRef, ViewEncapsulation} from '@angular/core';
+
 import {Option} from './option';
 import {OptionList} from './option-list';
 
@@ -35,9 +37,6 @@ export class SelectDropdownComponent
 
     @ViewChild('filterInput') filterInput: any;
     @ViewChild('optionsList') optionsList: any;
-
-    disabledColor: string = '#fff';
-    disabledTextColor: string = '9e9e9e';
 
     constructor(
         public hostElement: ElementRef
@@ -105,7 +104,7 @@ export class SelectDropdownComponent
 
     getOptionStyle(option: Option): any {
         if (option.highlighted) {
-            let style: any = {};
+            const style: any = {};
 
             if (typeof this.highlightColor !== 'undefined') {
                 style['background-color'] = this.highlightColor;
@@ -121,20 +120,20 @@ export class SelectDropdownComponent
 
     moveHighlightedIntoView() {
 
-        let list = this.optionsList.nativeElement;
-        let listHeight = list.offsetHeight;
+        const list = this.optionsList.nativeElement;
+        const listHeight = list.offsetHeight;
 
-        let itemIndex = this.optionList.getHighlightedIndex();
+        const itemIndex = this.optionList.getHighlightedIndex();
 
         if (itemIndex > -1) {
-            let item = list.children[0].children[itemIndex];
-            let itemHeight = item.offsetHeight;
+            const item = list.children[0].children[itemIndex];
+            const itemHeight = item.offsetHeight;
 
-            let itemTop = itemIndex * itemHeight;
-            let itemBottom = itemTop + itemHeight;
+            const itemTop = itemIndex * itemHeight;
+            const itemBottom = itemTop + itemHeight;
 
-            let viewTop = list.scrollTop;
-            let viewBottom = viewTop + listHeight;
+            const viewTop = list.scrollTop;
+            const viewBottom = viewTop + listHeight;
 
             if (itemBottom > viewBottom) {
                 list.scrollTop = itemBottom - listHeight;
@@ -145,9 +144,9 @@ export class SelectDropdownComponent
     }
 
     private handleOptionsWheel(e: any) {
-        let div = this.optionsList.nativeElement;
-        let atTop = div.scrollTop === 0;
-        let atBottom = div.offsetHeight + div.scrollTop === div.scrollHeight;
+        const div = this.optionsList.nativeElement;
+        const atTop = div.scrollTop === 0;
+        const atBottom = div.offsetHeight + div.scrollTop === div.scrollHeight;
 
         if (atTop && e.deltaY < 0) {
             e.preventDefault();

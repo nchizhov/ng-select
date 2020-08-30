@@ -844,11 +844,10 @@ export class Diacritics {
 
     static strip(text: string): string {
 
-        let match = (a: string): string => {
+        const match = (a: string): string => {
             return this.DIACRITICS[a] || a;
         };
 
         return text.replace(/[^\u0000-\u007E]/g, match);
     }
 }
-

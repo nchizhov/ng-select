@@ -10,6 +10,8 @@
         <div class="select-value">Options loaded in {{timeLeft}} sec</div>
         <ng-select
             [options]="characters"
+            [allowClear]="true"
+            (clearSingleSelection)="onClean()"
             [(ngModel)]="selectedCharacter">
         </ng-select>
 
