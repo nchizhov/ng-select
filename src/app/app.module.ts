@@ -16,7 +16,6 @@ import {RouterModule} from '@angular/router';
 
 import 'hammerjs';
 
-import {SelectModule} from 'ng-select';
 import {appRoutes} from './app.router';
 import {AppComponent} from './app.component';
 
@@ -51,6 +50,7 @@ import {SelectMethod} from './components/examples/select-method.component';
 import {ClearMethod} from './components/examples/clear-method.component';
 
 import {OptionService} from './services/option.service';
+import {SelectModule} from '../../projects/ng-select/src/lib/ng-select.module';
 
 @NgModule({
     declarations: [
