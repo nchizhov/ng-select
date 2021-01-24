@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {IOption} from 'ng-select';
+
+import {IOption} from '../../../projects/ng-select/src/lib/option.interface';
 
 @Injectable()
 export class OptionService {
@@ -14,14 +15,14 @@ export class OptionService {
     }
 
     getCharactersWithDisabled(): Array<IOption> {
-        let characters: Array<IOption> = this.cloneOptions(OptionService.PLAYER_ONE);
+        const characters: Array<IOption> = this.cloneOptions(OptionService.PLAYER_ONE);
         characters[1].disabled = true;
         characters[4].disabled = true;
         return characters;
     }
 
     getCharactersWithMarked(): Array<IOption> {
-        let characters: Array<any> = this.cloneOptions(OptionService.PLAYER_ONE);
+        const characters: Array<any> = this.cloneOptions(OptionService.PLAYER_ONE);
         characters[0].marked = true;
         characters[1].marked = false;
         characters[2].marked = true;

@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {IOption} from 'ng-select';
 declare var hljs: any;
+
 import {OptionService} from '../../services/option.service';
+import {IOption} from '../../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'intro',
@@ -10,7 +10,7 @@ import {OptionService} from '../../services/option.service';
 })
 export class Intro implements AfterViewInit {
 
-    optionsId: string = 'characters';
+    optionsId = 'characters';
     options: Array<IOption> = this.optionService.getCharacters();
 
     constructor(
@@ -26,12 +26,13 @@ export class Intro implements AfterViewInit {
     onToggleChange() {
         if (this.optionsId === 'characters') {
             this.options = this.optionService.getCharacters();
-        }
-        else if (this.optionsId === 'countries') {
+        } else if (this.optionsId === 'countries') {
             this.options = this.optionService.getCountries();
         }
-        setTimeout(() => {this.initHighlight();});
-        //this.optionsJson = `<pre><code class="json">${this.options | json}</code></pre>`;
+        setTimeout(() => {
+            this.initHighlight();
+        });
+        // this.optionsJson = `<pre><code class="json">${this.options | json}</code></pre>`;
     }
 
     private initHighlight() {

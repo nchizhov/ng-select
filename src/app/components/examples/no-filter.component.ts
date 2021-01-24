@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {IOption} from 'ng-select';
 declare var hljs: any;
+
 import {OptionService} from '../../services/option.service';
+import {IOption} from '../../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'no-filter',
@@ -11,8 +11,8 @@ import {OptionService} from '../../services/option.service';
 export class NoFilter implements AfterViewInit {
 
     characters: Array<IOption> = this.optionService.getCharacters();
-    noFilterThreshold0: number = 6;
-    noFilterThreshold1: number = 6;
+    noFilterThreshold0 = 6;
+    noFilterThreshold1 = 6;
 
     constructor(
         private elementRef: ElementRef,
@@ -20,16 +20,16 @@ export class NoFilter implements AfterViewInit {
     ) {}
 
     onNoFilterThresholdChange0(e) {
-        this.noFilterThreshold0 = parseInt(e.target.value);
+        this.noFilterThreshold0 = parseInt(e.target.value, 10);
     }
 
     onNoFilterThresholdChange1(e) {
-        this.noFilterThreshold1 = parseInt(e.target.value);
+        this.noFilterThreshold1 = parseInt(e.target.value, 10);
     }
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css');
 

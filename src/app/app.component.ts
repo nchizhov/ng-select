@@ -1,21 +1,16 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-
-import {SelectComponent, IOption} from 'ng-select';
-
-declare var hljs: any;
 
 @Component({
   selector: 'ng-select-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+    static readonly SCREEN_BREAKPOINT: number = 600;
 
     @ViewChild('mainContainer', { static: true }) mainContainer: ElementRef;
-
-    static readonly SCREEN_BREAKPOINT: number = 600;
-    smallScreen: boolean = false;
+    smallScreen = false;
 
     constructor(
         public router: Router

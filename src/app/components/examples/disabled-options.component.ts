@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {IOption} from 'ng-select';
 declare var hljs: any;
+
 import {OptionService} from '../../services/option.service';
+import {IOption} from '../../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'disabled-options',
@@ -18,7 +18,7 @@ export class DisabledOptions implements AfterViewInit {
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css');
 

@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {IOption} from 'ng-select';
 declare var hljs: any;
+
 import {OptionService} from '../../services/option.service';
+import {IOption} from '../../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'focus',
@@ -11,8 +11,8 @@ import {OptionService} from '../../services/option.service';
 export class Focus implements AfterViewInit {
 
     characters: Array<IOption> = this.optionService.getCharacters();
-    hasFocus0: boolean = false;
-    hasFocus1: boolean = false;
+    hasFocus0 = false;
+    hasFocus1 = false;
 
     constructor(
         private elementRef: ElementRef,
@@ -21,7 +21,7 @@ export class Focus implements AfterViewInit {
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css');
 

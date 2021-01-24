@@ -60,7 +60,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit,
     @ViewChild('dropdown', { static: false }) dropdown: SelectDropdownComponent;
     @ViewChild('filterInput', { static: false }) filterInput: ElementRef;
 
-    @ContentChild('optionTemplate', /* TODO: add static flag */ {}) optionTemplate: TemplateRef<any>;
+    @ContentChild('optionTemplate', {static: true}) optionTemplate: TemplateRef<any>;
 
     private _value: Array<any> = [];
     optionList: OptionList = new OptionList([]);

@@ -1,7 +1,8 @@
 import {AfterViewInit, Component, ElementRef} from '@angular/core';
-import {IOption} from 'ng-select';
 declare var hljs: any;
+
 import {OptionService} from '../../services/option.service';
+import {IOption} from '../../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'highlight-color',
@@ -10,7 +11,7 @@ import {OptionService} from '../../services/option.service';
 export class HighlightColor implements AfterViewInit {
 
     characters: Array<IOption> = this.optionService.getCharacters();
-    selectedCharacter: string = '3';
+    selectedCharacter = '3';
     selectedCharacters: Array<string> = ['1', '3'];
 
     constructor(
@@ -20,7 +21,7 @@ export class HighlightColor implements AfterViewInit {
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css');
 

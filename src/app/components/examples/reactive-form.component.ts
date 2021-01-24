@@ -1,17 +1,18 @@
-import {AfterViewInit, Component, ElementRef} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {IOption} from 'ng-select';
 declare var hljs: any;
+
 import {OptionService} from '../../services/option.service';
+import {IOption} from '../../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'reactive-form',
     templateUrl: 'reactive-form.component.html'
 })
-export class ReactiveForm implements AfterViewInit {
+export class ReactiveForm implements OnInit, AfterViewInit {
 
     characters: Array<IOption> = this.optionService.getCharacters();
-    defaultCharacter: string = '3';
+    defaultCharacter = '3';
     defaultCharacters: Array<string> = ['1', '3'];
     form0: FormGroup;
     form1: FormGroup;
@@ -32,7 +33,7 @@ export class ReactiveForm implements AfterViewInit {
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css');
 

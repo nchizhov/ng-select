@@ -1,21 +1,21 @@
-import {Component, ElementRef} from '@angular/core';
+import {AfterViewInit, Component, ElementRef} from '@angular/core';
 declare var hljs: any;
 
 @Component({
     selector: 'faq',
     templateUrl: './faq.component.html'
 })
-export class Faq {
+export class Faq implements AfterViewInit {
 
-    question1: string = 'I pushed new options to my options array, why do they not appear in the drop down list?';
+    question1 = 'I pushed new options to my options array, why do they not appear in the drop down list?';
 
-    question1html: string = `
+    question1html = `
 <pre><code class="html">&lt;ng-select
     [options]="myOptions"
 &lt;/ng-select&gt;
 </code></pre>`;
 
-    question1tsNotWorking: string = `<pre><code class="typescript">
+    question1tsNotWorking = `<pre><code class="typescript">
 this.myOptions = [];
 
 ngOnInit() {
@@ -27,7 +27,7 @@ ngOnInit() {
 }
 </code></pre>`;
 
-    question1tsWorking: string = `<pre><code class="typescript">
+    question1tsWorking = `<pre><code class="typescript">
 this.myOptions = [];
 
 ngOnInit() {
@@ -43,7 +43,7 @@ ngOnInit() {
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css, .shell-session');
 

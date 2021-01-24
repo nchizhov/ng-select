@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {IOption} from 'ng-select';
+
 import {OptionService} from '../services/option.service';
+import {IOption} from '../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'home',
@@ -8,10 +9,10 @@ import {OptionService} from '../services/option.service';
 })
 export class Home {
 
-    version: string = '1.0.1';
+    version = '1.0.1';
 
     countries: Array<IOption> = this.optionService.getCountries();
-    singleSelectValue: string = 'NL';
+    singleSelectValue = 'NL';
     multiSelectValue: Array<string> = ['BE', 'LU', 'NL'];
 
     constructor(

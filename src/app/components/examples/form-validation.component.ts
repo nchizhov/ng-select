@@ -1,14 +1,15 @@
-import {AfterViewInit, Component, ElementRef} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {IOption} from 'ng-select';
 declare var hljs: any;
+
 import {OptionService} from '../../services/option.service';
+import {IOption} from '../../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'form-validation',
     templateUrl: './form-validation.component.html'
 })
-export class FormValidation implements AfterViewInit {
+export class FormValidation implements OnInit, AfterViewInit {
 
     characters: Array<IOption> = this.optionService.getCharacters();
     form0: FormGroup;
@@ -30,7 +31,7 @@ export class FormValidation implements AfterViewInit {
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css');
 

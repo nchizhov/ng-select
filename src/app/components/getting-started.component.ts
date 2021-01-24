@@ -1,16 +1,16 @@
-import {Component, ElementRef} from '@angular/core';
+import {AfterViewInit, Component, ElementRef} from '@angular/core';
 declare var hljs: any;
 
 @Component({
     selector: 'getting-started',
     templateUrl: './getting-started.component.html'
 })
-export class GettingStarted {
+export class GettingStarted implements AfterViewInit {
 
-    installNpm: string = `<pre><code class="shell-session">$ npm install --save ng-select</code></pre>`;
-    installYarn: string = `<pre><code class="shell-session">$ yarn add ng-select</code></pre>`;
+    installNpm = `<pre><code class="shell-session">$ npm install --save ng-select</code></pre>`;
+    installYarn = `<pre><code class="shell-session">$ yarn add ng-select</code></pre>`;
 
-    moduleTypescript: string = `<pre><code class="typescript">import {NgModule} from '@angular/core';
+    moduleTypescript = `<pre><code class="typescript">import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {SelectModule} from 'ng-select';
 import {AppComponent} from './app.component';
@@ -29,11 +29,11 @@ import {AppComponent} from './app.component';
 })
 export class AppModule {}</code></pre>`;
 
-    componentTemplate: string = `<pre><code class="html">&lt;ng-select
+    componentTemplate = `<pre><code class="html">&lt;ng-select
     [options]="myOptions"&gt;
 &lt;/ng-select&gt;</pre></code>`;
 
-    componentClass: string = `<pre><code class="typescript">import {Component} from '@angular/core';
+    componentClass = `<pre><code class="typescript">import {Component} from '@angular/core';
 import {IOption} from 'ng-select';
 
 @Component({
@@ -55,7 +55,7 @@ export class MyExampleComponent {
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css, .shell-session');
 

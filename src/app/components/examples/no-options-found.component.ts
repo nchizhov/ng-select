@@ -1,7 +1,8 @@
 import {AfterViewInit, Component, ElementRef} from '@angular/core';
-import {IOption} from 'ng-select';
 declare var hljs: any;
+
 import {OptionService} from '../../services/option.service';
+import {IOption} from '../../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'no-options-found',
@@ -10,8 +11,8 @@ import {OptionService} from '../../services/option.service';
 export class NoOptionsFound implements AfterViewInit {
 
     characters: Array<IOption> = this.optionService.getCharacters();
-    noResultsTerm0: string = '';
-    noResultsTerm1: string = '';
+    noResultsTerm0 = '';
+    noResultsTerm1 = '';
 
     constructor(
         private elementRef: ElementRef,
@@ -28,7 +29,7 @@ export class NoOptionsFound implements AfterViewInit {
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css');
 

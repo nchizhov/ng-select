@@ -1,18 +1,19 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IOption } from 'ng-select';
 declare var hljs: any;
+
 import { OptionService } from '../../services/option.service';
+import {IOption} from '../../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'load-options',
     templateUrl: 'load-options.component.html'
 })
-export class LoadOptions implements AfterViewInit, OnInit {
+export class LoadOptions implements AfterViewInit, OnInit, OnDestroy {
 
     characters: Array<IOption>;
-    selectedCharacter: string = '3';
-    timeLeft: number = 5;
+    selectedCharacter = '3';
+    timeLeft = 5;
 
     private dataSub: Subscription = null;
 
@@ -38,7 +39,7 @@ export class LoadOptions implements AfterViewInit, OnInit {
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css');
 
@@ -48,7 +49,7 @@ export class LoadOptions implements AfterViewInit, OnInit {
     }
 
     runTimer() {
-        let timer = setInterval(() => {
+        const timer = setInterval(() => {
             this.timeLeft -= 1;
             if (this.timeLeft === 0) {
                 clearInterval(timer);

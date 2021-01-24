@@ -1,7 +1,8 @@
 import {AfterViewInit, Component, ElementRef} from '@angular/core';
-import {IOption} from 'ng-select';
 declare var hljs: any;
+
 import {OptionService} from '../../services/option.service';
+import {IOption} from '../../../../projects/ng-select/src/lib/option.interface';
 
 @Component({
     selector: 'filter-input-changed',
@@ -10,8 +11,8 @@ import {OptionService} from '../../services/option.service';
 export class FilterInputChanged implements AfterViewInit {
 
     characters: Array<IOption> = this.optionService.getCharacters();
-    searchTerm0: string = '';
-    searchTerm1: string = '';
+    searchTerm0 = '';
+    searchTerm1 = '';
 
     constructor(
         private elementRef: ElementRef,
@@ -28,7 +29,7 @@ export class FilterInputChanged implements AfterViewInit {
 
     ngAfterViewInit() {
         hljs.initHighlighting();
-        let nodes: NodeList = this.elementRef
+        const nodes: NodeList = this.elementRef
             .nativeElement
             .querySelectorAll('.typescript, .html, .css');
 
