@@ -1,6 +1,6 @@
 {
   "name": "@inok/ng-select",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Select component for angular.",
   "repository": "git@github.com:nchizhov/ng-select.git",
   "keywords": [
@@ -21,6 +21,6 @@
     "@angular/common": "^9.1.13"
   },
   "dependencies": {
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   }
 }
